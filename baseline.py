@@ -8,6 +8,8 @@ from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.inspection import permutation_importance
+from sklearn.tree import export_graphviz
+
 data = pd.read_csv('train_full.csv')
 categorical_columns = ['team','opp', 'host',"month","day_match"]
 continuous_columns = ["year","toss","bat_first","format" ,"fow","score" ,"rpo" ,"result"]
@@ -43,7 +45,7 @@ importances = clf.feature_importances_
 result = permutation_importance(
     clf, X_test, y_test, n_repeats=10, random_state=42, n_jobs=16
 )
-importances = results['importances_mean']
+importances = result['importances_mean']
 fig, axes = plt.subplots()
 fname = X_train.iloc[1].keys().tolist()
 
@@ -53,4 +55,3 @@ data.sort(key = lambda x: -1*x[0])
 axes.set_xticklabels([d[1] for d in data], rotation=90)
 axes.bar([d[1] for d in data], [d[0] for d in data])
 plt.show()
-pdb.set_trace()
